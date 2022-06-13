@@ -4,9 +4,8 @@ import { Input, Text, Button, Image } from "react-native-elements";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import logo from "../src/image/Logo.png"
-import Registro from "./Registro";
 
-export default function Login( {navigation} ){
+export default function Registro( {navigation} ){
   
   return (
     <KeyboardAvoidingView style={styles.background}>
@@ -16,7 +15,17 @@ export default function Login( {navigation} ){
         />
       </View>
 
+      <div>
+      <h4>Criar Conta</h4>
+      </div>
+
       <View style={styles.container}>
+        <TextInput style={styles.input}
+        placeholder="Nome"
+        autoCorrect={false}
+        onChangeText={()=> {}}
+        />
+
         <TextInput style={styles.input}
         placeholder="Email"
         autoCorrect={false}
@@ -29,14 +38,15 @@ export default function Login( {navigation} ){
         onChangeText={()=> {}}
         />
 
+        <TextInput style={styles.input}
+        placeholder="Confirmar Senha"
+        autoCorrect={false}
+        onChangeText={()=> {}}
+        />
+
         <TouchableOpacity style={styles.btnSubmit}>
-          <Text style={styles.submitText}>Acessar</Text>
+          <Text style={styles.submitText}>Criar</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btnRegister}>
-          <Text style={styles.registerText}><a href="/components/Registro.js">Criar Conta</a></Text>
-        </TouchableOpacity>
-
       </View>
     </KeyboardAvoidingView>
   );
