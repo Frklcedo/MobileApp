@@ -4,23 +4,36 @@ import { Input, Text, Button, Image } from "react-native-elements";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import logo from "../src/image/Logo.png"
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, deleteUser, updateProfile } from "firebase/auth";
 import { auth } from "../src/Connection";
 
-export default function Login( {navigation} ){
+export default function Registro( {navigation} ){
   
+  const [nome, setNome] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  
-  const login = () => {
-    signInWithEmailAndPassword(auth, email, password).then(cred => {
-      console.log("Usuário logou com sucesso: ", cred.user);
-      navigation.navigate('Index');
-    }).catch(err => {
-      console.log(err.message);
-      // styles.input.borderColor = '#ff0000';
-    })
-  };
+  const [confirmpassword, setConfirmPassword] = useState();
+
+  const criarConta = () => {
+    const passwordregex = /^([a-zA-Z0-9]{6,12})$/;
+    console.log(password.search(passwordregex));
+    if(password.search(passwordregex) >= 0){
+      if(password === confirmpassword){
+        createUserWithEmailAndPassword(auth, email, password).then(cred => {
+          console.log('Usuário criado: ', cred.user);
+          updateProfile(auth.currentUser, {
+            displayName: nome
+          }).then(cred => {
+            console.log('Usuário criado: ', cred.user);
+            navigation.navigate('Index');
+          }).catch(err => {
+            console('não foi possível atribuir um nome ', err.message)
+            deleteUser(auth.currentUser)
+          })
+        })
+      }
+    }
+  }
   
   return (
     <KeyboardAvoidingView style={styles.background}>
@@ -30,28 +43,38 @@ export default function Login( {navigation} ){
         />
       </View>
 
+      <div>
+        <h4>Criar Conta</h4>
+      </div>
+
       <View style={styles.container}>
+        <TextInput style={styles.input}
+        placeholder="Nome"
+        autoCorrect={false}
+        onChangeText={(nome)=> { setNome(nome.trim())}}
+        />
+
         <TextInput style={styles.input}
         placeholder="Email"
         autoCorrect={false}
-        onChangeText={ email => { setEmail(email) }}
+        onChangeText={(email)=> { setEmail(email.trim())}}
         />
 
         <TextInput style={styles.input}
         placeholder="Senha"
         autoCorrect={false}
-        onChangeText={ password => { setPassword(password)}} 
-        secureTextEntry={true}
+        onChangeText={( senha )=> { setPassword(senha.trim())}}
         />
 
-        <TouchableOpacity style={styles.btnSubmit} onPress={() => {login()}}>
-          <Text style={styles.submitText}>Acessar</Text>
-        </TouchableOpacity>
+        <TextInput style={styles.input}
+        placeholder="Confirmar Senha"
+        autoCorrect={false}
+        onChangeText={( confirmacao )=> { setConfirmPassword(confirmacao.trim())}}
+        />
 
-        <TouchableOpacity style={styles.btnRegister} onPress={() => {navigation.navigate('Registro')}}>
-          <Text style={styles.registerText}>Criar Conta</Text>
+        <TouchableOpacity style={styles.btnSubmit} onPress={() => criarConta()} >
+          <Text style={styles.submitText}>Criar</Text>
         </TouchableOpacity>
-
       </View>
     </KeyboardAvoidingView>
   );

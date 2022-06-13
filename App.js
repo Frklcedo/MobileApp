@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Login from './components/Login';
 import Index from './components/Index';
+import Registro from "./components/Registro";
 import fb, { db, auth } from './src/Connection';
 import { signOut } from 'firebase/auth';
 
@@ -13,6 +14,7 @@ function MyStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Registro" component={Registro} />
       <Stack.Screen name="Index" component={Index} />
     </Stack.Navigator>
   );
