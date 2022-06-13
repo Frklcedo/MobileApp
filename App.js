@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Login from './components/Login';
 import Index from './components/Index';
+import fb, { db, auth } from './src/Connection';
+import { signOut } from 'firebase/auth';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +20,17 @@ function MyStack() {
 
 
 export default function App() {
+  
+  const authResign = () => {
+    if(auth.currentUser){
+      signOut(auth).then(() => {
+        console.log("User signed out");
+      }).catch(err => {
+        console.log("could not sign out user")
+      });
+    }
+  }
+
   return (
     <NavigationContainer>
       <MyStack />

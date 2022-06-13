@@ -4,8 +4,22 @@ import { Input, Text, Button, Image } from "react-native-elements";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import logo from "../src/image/Logo.png"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../src/Connection";
 
 export default function Login( {navigation} ){
+  
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  
+  const login = () => {
+    signInWithEmailAndPassword(auth, email, password).then(cred => {
+      console.log("Usuário logou com sucesso: ", cred.user);
+    }).catch(err => {
+      console.log(err.message);
+      // styles.input.borderColor = '#ff0000';
+    })
+  };
   
   return (
     <KeyboardAvoidingView style={styles.background}>
@@ -19,16 +33,16 @@ export default function Login( {navigation} ){
         <TextInput style={styles.input}
         placeholder="Email"
         autoCorrect={false}
-        onChangeText={()=> {}}
+        onChangeText={ email => { setEmail(email) }}
         />
 
         <TextInput style={styles.input}
         placeholder="Senha"
         autoCorrect={false}
-        onChangeText={()=> {}}
+        onChangeText={ password => { setPassword(password)}}
         />
 
-        <TouchableOpacity style={styles.btnSubmit}>
+        <TouchableOpacity style={styles.btnSubmit} onPress={() => {login()}}>
           <Text style={styles.submitText}>Acessar</Text>
         </TouchableOpacity>
 
