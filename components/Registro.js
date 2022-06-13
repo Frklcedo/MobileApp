@@ -63,12 +63,14 @@ export default function Registro( {navigation} ){
         <TextInput style={styles.input}
         placeholder="Senha"
         autoCorrect={false}
+        secureTextEntry={true}
         onChangeText={( senha )=> { setPassword(senha.trim())}}
         />
 
         <TextInput style={styles.input}
         placeholder="Confirmar Senha"
         autoCorrect={false}
+        secureTextEntry={true}
         onChangeText={( confirmacao )=> { setConfirmPassword(confirmacao.trim())}}
         />
 

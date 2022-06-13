@@ -14,10 +14,8 @@ export default function Login( {navigation} ){
   
   const login = () => {
     signInWithEmailAndPassword(auth, email, password).then(cred => {
-      console.log("Usuário logou com sucesso: ", cred.user);
-      navigation.navigate('Index');
+      navigation.navigate('Chat');
     }).catch(err => {
-      console.log(err.message);
       // styles.input.borderColor = '#ff0000';
     })
   };
