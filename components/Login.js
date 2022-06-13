@@ -3,13 +3,15 @@ import { StyleSheet, View, KeyboardAvoidingView, TouchableOpacity, TextInput } f
 import { Input, Text, Button, Image } from "react-native-elements";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import logo from "../src/image/Logo.png"
 
 export default function Login( {navigation} ){
+  
   return (
     <KeyboardAvoidingView style={styles.background}>
       <View style={styles.containerLogo}>
         <Image
-          source={require('../src/image/Logo.png')}
+          source={logo} style={styles.logo}
         />
       </View>
 
@@ -20,7 +22,7 @@ export default function Login( {navigation} ){
         onChangeText={()=> {}}
         />
 
-      <TextInput style={styles.input}
+        <TextInput style={styles.input}
         placeholder="Senha"
         autoCorrect={false}
         onChangeText={()=> {}}
@@ -49,7 +51,17 @@ const styles = StyleSheet.create({
 
   containerLogo:{
     flex:1,
-    justifyContent:'center'
+    justifyContent:'center',
+    margin: 20, 
+    maxHeight:140,
+    margin: 10
+  },
+
+  logo: {
+    display: 'block',
+    height: 84+42,
+    width: 192+192/2,
+    margin: 0
   },
 
   container:{
