@@ -27,7 +27,7 @@ export default function Registro( {navigation} ){
             console.log('Usuário criado: ', cred.user);
             navigation.navigate('Index');
           }).catch(err => {
-            console('não foi possível atribuir um nome ', err.message)
+            console.log('não foi possível atribuir um nome ', err.message)
             deleteUser(auth.currentUser)
           })
         })
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit:{
-    backgroundColor:'#35AAFF',
+    backgroundColor:'#4BCC37',
     width: '90%',
     height: 40,
     alignItems: 'center',

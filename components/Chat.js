@@ -32,18 +32,16 @@ export default function Chat( {navigation} ){
             return messages.map(corpoMensagem => {
                 if (corpoMensagem.username == auth.currentUser.displayName){
                     return (
-                        <View>
-                            <Text style={styles.messagebodyme} key={corpoMensagem}>{corpoMensagem.mensagem}</Text>
-                            <Text style={styles.messageuserme}> {corpoMensagem.username}</Text>
-                            <Text style={styles.messageuserme}> {corpoMensagem.createdAt}</Text>
-                        </View>                        
+                        <View key={corpoMensagem}>
+                            <Text style={styles.messagebodyme} key={corpoMensagem.mensagem}>{corpoMensagem.mensagem}</Text>
+                            <Text style={styles.messageuserme} key={corpoMensagem.username}>{corpoMensagem.username}</Text>
+                        </View>
                 );
                 }
                 return (
-                    <View>
-                        <Text style={styles.messagebody} key={corpoMensagem}>{corpoMensagem.mensagem}</Text>
-                        <Text style={styles.messageuser}> {corpoMensagem.username}</Text>
-                        <Text style={styles.messageuser}> {corpoMensagem.createdAt}</Text>
+                    <View key={corpoMensagem}>
+                        <Text style={styles.messagebody} key={corpoMensagem.mensagem}>{corpoMensagem.mensagem}</Text>
+                        <Text style={styles.messageuser} key={corpoMensagem.username}>{corpoMensagem.username}</Text>
                     </View>
                 );
             })
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     chatBtn: {
-        backgroundColor:'#35AAFF',
+        backgroundColor:'#4BCC37',
         height: 40,
         paddingTop: 10,
         paddingBottom: 10,
@@ -179,7 +177,7 @@ const styles = StyleSheet.create({
     },
     enviarBtn: {
         flexGrow: 3,
-        backgroundColor:'#35AAFF',
+        backgroundColor:'#4BCC37',
         height: 40,
         paddingTop: 10,
         paddingBottom: 10,
