@@ -1,7 +1,8 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import react, { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, TouchableOpacity} from "react-native"; 
 import { Input, Text, Button } from "react-native-elements";
+import { TextInput } from "react-native-gesture-handler";
 import { auth, db } from "../src/Connection";
 
 export default function Index( {navigation} ){
@@ -9,12 +10,30 @@ export default function Index( {navigation} ){
     const colRef = collection(db, 'chats');
     const [chatRoom, setChatRoom] = useState('');
     const [messages, setMessages] = useState();
-    const [snap, setSnap] = useState()
+    const [currentMessage, setCurrentMessage] = useState();
+    const [unsubSnap, setUnsubSnap] = useState();
 
     useEffect(() => {
-        const q = query(colRef, orderBy('createdAt'));
-        setMessages() 
+        unsubSnap();
+        const q = query(colRef, orderBy('createdAt'), where('chatRoom', '==', chatRoom));
+        const unsub = onSnapshot(q, snapshot => {
+            let mensagens = [];
+            snapshot.docs.forEach(doc => {
+                mensagens.push({... doc.data(), id: doc.id})
+            })
+            setMessages(mensagens);
+        })
+        setUnsubSnap(unsub);
     }, [chatRoom, messages]);
+
+    const enviarMensagem = () => {
+        addDoc(colRef, {
+            mensagem: currentMessage,
+            sala: chatRoom,
+            username: auth.currentUser.displayName,
+            createdAt: serverTimestamp()
+        });
+    }
 
     return (
         <KeyboardAvoidingView>
@@ -37,6 +56,12 @@ export default function Index( {navigation} ){
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.chatBtn} onPress={() => setChatRoom('streams')}>
                         <Text style={styles.chatBtnText}>Streams</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.sendMessage}>
+                    <TextInput placeholder="Digite aqui sua mensagem..." onChangeText={(text) => setCurrentMessage(text)} style={styles.currentMessage}></TextInput>
+                    <TouchableOpacity style={styles.enviarBtn} onPress={() => {enviarMensagem()}}>
+                        <Text style={styles.enviarTexto}>Enviar</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -79,5 +104,31 @@ const styles = StyleSheet.create({
     },
     chatBtnText: {
         color: '#fff',
+    },
+    sendMessage: {
+        flex: 1,
+        flexDirection: "row",
+        gap: 5,
+        justifyContent: "space-evenly",
+    },
+    currentMessage: {
+        flexGrow: 7,
+        borderRadius: "25%",
+        backgroundColor: "#ddd",
+        textAlign: 'center'
+    },
+    enviarBtn: {
+        backgroundColor:'#35AAFF',
+        height: 40,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 25,
+        paddingRight: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 7
+    },
+    enviarTexto: {
+        color: "#fff"
     }
 });

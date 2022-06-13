@@ -51,7 +51,6 @@ export default function Login( {navigation} ){
         <TouchableOpacity style={styles.btnRegister} onPress={() => {navigation.navigate('Registro')}}>
           <Text style={styles.registerText}>Criar Conta</Text>
         </TouchableOpacity>
-
       </View>
     </KeyboardAvoidingView>
   );
