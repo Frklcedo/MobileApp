@@ -6,18 +6,23 @@ import { createStackNavigator } from '@react-navigation/stack';
 import logo from "../src/image/Logo.png"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../src/Connection";
+import { set } from "react-native-reanimated";
 
 export default function Login( {navigation} ){
   
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  
+  const [message, setMessage] = useState();
   const login = () => {
     signInWithEmailAndPassword(auth, email, password).then(cred => {
       console.log("Usuário logou com sucesso: ", cred.user);
       navigation.navigate('Index');
     }).catch(err => {
+      if (err.message){
+        setMessage("Credenciais inválidas") 
+      };
       console.log(err.message);
+      
       // styles.input.borderColor = '#ff0000';
     })
   };
@@ -51,6 +56,10 @@ export default function Login( {navigation} ){
         <TouchableOpacity style={styles.btnRegister} onPress={() => {navigation.navigate('Registro')}}>
           <Text style={styles.registerText}>Criar Conta</Text>
         </TouchableOpacity>
+
+        <Text style={styles.Texterr}>
+          {message}
+        </Text>
 
       </View>
     </KeyboardAvoidingView>
@@ -120,6 +129,13 @@ const styles = StyleSheet.create({
 
   registerText:{
     color: '#191919'
+  },
+
+  Texterr:{
+    color: '#DC143C',
+    fontSize: 20,
+    fontWeight: 'bold'
+    
   }
 
 });

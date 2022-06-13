@@ -12,6 +12,8 @@ export default function Registro( {navigation} ){
   const [nome, setNome] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [message, setMessage] = useState();
+  const [erromessage, setErromessage] = useState();
   const [confirmpassword, setConfirmPassword] = useState();
 
   const criarConta = () => {
@@ -20,18 +22,21 @@ export default function Registro( {navigation} ){
     if(password.search(passwordregex) >= 0){
       if(password === confirmpassword){
         createUserWithEmailAndPassword(auth, email, password).then(cred => {
-          console.log('Usuário criado: ', cred.user);
           updateProfile(auth.currentUser, {
             displayName: nome
-          }).then(cred => {
-            console.log('Usuário criado: ', cred.user);
-            navigation.navigate('Index');
+          }).then(() => {
+            console.log('Usuário criado: ', auth.currentUser);
+            setMessage("Usuário criado")
+            //navigation.navigate('Index');
           }).catch(err => {
-            console('não foi possível atribuir um nome ', err.message)
             deleteUser(auth.currentUser)
           })
         })
+      } else {
+        setErromessage("ERRO!\n Reveja os dados")
       }
+    }else {
+      setErromessage("ERRO!\n Reveja os dados")
     }
   }
   
@@ -75,6 +80,13 @@ export default function Registro( {navigation} ){
         <TouchableOpacity style={styles.btnSubmit} onPress={() => criarConta()} >
           <Text style={styles.submitText}>Criar</Text>
         </TouchableOpacity>
+
+        <Text style={styles.Texterr}>
+          {erromessage}
+        </Text>
+        <Text style={styles.Usercreated}>
+          {message}
+        </Text>
       </View>
     </KeyboardAvoidingView>
   );
@@ -143,6 +155,18 @@ const styles = StyleSheet.create({
 
   registerText:{
     color: '#191919'
+  },
+
+  Texterr:{
+    color: '#DC143C',
+    fontSize: 20,
+    fontWeight: 'bold' ,
+    textAlign: 'center' 
+  },
+  Usercreated:{
+    color: '#66CDAA',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 
 });
