@@ -27,16 +27,20 @@ export default function Registro( {navigation} ){
           }).then(() => {
             console.log('Usuário criado: ', auth.currentUser);
             setMessage("Usuário criado")
+            setErromessage("")
             //navigation.navigate('Index');
           }).catch(err => {
+            console.log('não foi possível atribuir um nome ', err.message)
             deleteUser(auth.currentUser)
           })
         })
       } else {
         setErromessage("ERRO!\n Reveja os dados")
+        setMessage("")
       }
     }else {
       setErromessage("ERRO!\n Reveja os dados")
+      setMessage("")
     }
   }
   
@@ -68,12 +72,14 @@ export default function Registro( {navigation} ){
         <TextInput style={styles.input}
         placeholder="Senha"
         autoCorrect={false}
+        secureTextEntry={true}
         onChangeText={( senha )=> { setPassword(senha.trim())}}
         />
 
         <TextInput style={styles.input}
         placeholder="Confirmar Senha"
         autoCorrect={false}
+        secureTextEntry={true}
         onChangeText={( confirmacao )=> { setConfirmPassword(confirmacao.trim())}}
         />
 
@@ -136,7 +142,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit:{
-    backgroundColor:'#35AAFF',
+    backgroundColor:'#4BCC37',
     width: '90%',
     height: 40,
     alignItems: 'center',

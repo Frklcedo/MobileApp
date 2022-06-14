@@ -15,8 +15,7 @@ export default function Login( {navigation} ){
   const [message, setMessage] = useState();
   const login = () => {
     signInWithEmailAndPassword(auth, email, password).then(cred => {
-      console.log("Usuário logou com sucesso: ", cred.user);
-      navigation.navigate('Index');
+      navigation.navigate('Chat');
     }).catch(err => {
       if (err.message){
         setMessage("Credenciais inválidas") 
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
   },
 
   btnSubmit:{
-    backgroundColor:'#35AAFF',
+    backgroundColor:'#4BCC37',
     width: '90%',
     height: 40,
     alignItems: 'center',
